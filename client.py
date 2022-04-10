@@ -9,19 +9,17 @@ host = parser.get("connect", 'host')
 port = 8081
 client.connect((host, port))
 
-data = client.recv(1024)   # приветствие
-msg = data.decode('utf-8')
+msg = client.recv(1024).decode('utf-8') # приветствие
 print(f'\n\t {msg}')
-response = ""
-myNumber = -1
-while (response != "Верно!"):
-    myNumber=input("Введите ваше предполагаемое число в интервале от 1 и до 10:\t")
+answer = ""
+client_number = 100
+while answer != "Верно!":
     try:
-        myNumber = int(myNumber)
-        if myNumber >= 1 and myNumber <= 10:
-            client.send(("guess "+str(myNumber)).encode())
-            response = client.recv(1024).decode('utf-8')
-            print(response)
+        client_number = int(input("Введите ваше предполагаемое число в интервале от 1 и до 10:\t"))
+        if client_number >= 1 and client_number <= 10:
+            client.send(("guess "+str(client_number)).encode('utf-8'))
+            answer = client.recv(1024).decode('utf-8')
+            print(answer)
         else:
             print('Вы ввели недопустимое значение!')
             continue
